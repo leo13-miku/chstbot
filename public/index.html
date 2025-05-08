@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Chatbot</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Chatbot Web</h1>
+    <div id="chatbox">
+        <!-- As mensagens do chat aparecerão aqui -->
+        <!-- Você pode deixar uma mensagem inicial do bot aqui, se quiser,
+             ou deixar o JavaScript (public/index.js) adicionar a primeira. -->
+        <p class="bot-message"> Olá! Como posso ajudar?</p>
+    </div>
+    <div id="input-area">
+        <input type="text" id="userInput" placeholder="Digite sua mensagem..." autocomplete="off">
+        <button id="sendButton">Enviar</button>
+    </div>
+
+    <!-- Carrega o script do frontend que está em public/index.js -->
+    <script src="index.js"></script>
+</body>
+</html>
