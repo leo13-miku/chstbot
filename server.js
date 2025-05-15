@@ -1,14 +1,21 @@
 // server.js
-require('dotenv').config(); // Para carregar a API key do .env
-const express = require('express');
-const path = require('path');
-const { GoogleGenerativeAI } = require("@google/generative-ai"); // Importa a biblioteca do Google
+import dotenv from 'dotenv';
+import express from 'express';
+import path, { dirname } from 'path'; // Importa 'dirname' também
+import { fileURLToPath } from 'url';   // Para obter __dirname em módulos ES
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
+dotenv.config(); // Para carregar a API key do .env
+
+// Equivalente a __dirname em módulos ES
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
 const port = 3000;
 
 // --- Configuração da API do Google ---
-const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY; // Pega do arquivo .env
+const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
 
 if (!GOOGLE_API_KEY) {
     console.error("ERRO: A variável de ambiente GOOGLE_API_KEY não está definida.");
@@ -18,7 +25,7 @@ if (!GOOGLE_API_KEY) {
 // Inicializa o cliente da API Generativa do Google
 const genAI = new GoogleGenerativeAI(GOOGLE_API_KEY);
 // Escolha o modelo Gemini que você quer usar (ex: gemini-pro)
-const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+const model = genAI.getGenerativeModel({ model: "gemini-pro" }); // << ATENÇÃO AQUI SE O PROBLEMA FOR O MODELO
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -34,12 +41,12 @@ async function getGoogleAIResponse(userInput) {
         const chat = model.startChat({
             history: [
                 // Você pode adicionar um histórico de conversa aqui se quiser
-                // { role: "user", parts: "Olá" },
-                // { role: "model", parts: "Olá! Como posso ajudar?" }
+                // { role: "user", parts: [{ text: "Olá" }] }, // Estrutura de 'parts' pode variar
+                // { role: "model", parts: [{ text: "Olá! Como posso ajudar?" }] }
             ],
             generationConfig: {
-                // maxOutputTokens: 200, // Opcional: Limita o tamanho da resposta
-                temperature: 0.7,     // Opcional: Controla a criatividade
+                // maxOutputTokens: 200,
+                temperature: 0.7,
             }
         });
 
@@ -53,9 +60,7 @@ async function getGoogleAIResponse(userInput) {
     } catch (error) {
         console.error("-----------------------------------------");
         console.error("Erro ao chamar a API do Google AI (Gemini):");
-        // O tratamento de erro específico da API do Google pode ser diferente
-        // Consulte a documentação da biblioteca @google/generative-ai para detalhes
-        console.error(error);
+        console.error(error); // << PRECISAMOS VER ESTE ERRO DETALHADO
         console.error("-----------------------------------------");
         return "🤖 Desculpe, não consegui processar sua pergunta com a IA do Google no momento.";
     }
@@ -63,8 +68,8 @@ async function getGoogleAIResponse(userInput) {
 
 app.post('/chat', async (req, res) => {
     const userMessage = req.body.message;
-    if (!userMessage) {
-        return res.status(400).json({ error: 'Mensagem não encontrada', reply: '🤖 Por favor, envie uma mensagem.' });
+    if (!req.body || !userMessage) { // Adicionada verificação para req.body
+        return res.status(400).json({ error: 'Mensagem não encontrada ou corpo da requisição ausente.', reply: '🤖 Por favor, envie uma mensagem.' });
     }
 
     const botReply = await getGoogleAIResponse(userMessage);
