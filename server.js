@@ -25,7 +25,7 @@ if (!GOOGLE_API_KEY) {
 // Inicializa o cliente da API Generativa do Google
 const genAI = new GoogleGenerativeAI(GOOGLE_API_KEY);
 // Escolha o modelo Gemini que você quer usar (ex: gemini-pro)
-const model = genAI.getGenerativeModel({ model: "gemini-pro" }); // << ATENÇÃO AQUI SE O PROBLEMA FOR O MODELO
+const model = genAI.getGenerativeModel({ model: "gemini-1.0-pro" }); // << ATENÇÃO AQUI SE O PROBLEMA FOR O MODELO
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
