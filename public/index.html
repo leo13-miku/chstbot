@@ -1,25 +1,33 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu Chatbot</title>
+    <title>Meu Chatbot Inteligente</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Chatbot Web</h1>
-    <div id="chatbox">
-        <!-- As mensagens do chat aparecerão aqui -->
-        <!-- Você pode deixar uma mensagem inicial do bot aqui, se quiser,
-             ou deixar o JavaScript (public/index.js) adicionar a primeira. -->
-        <p class="bot-message"> Olá! Como posso ajudar?</p>
+    <div class="chat-container">
+        <header class="chat-header">
+            <h1>Chat com Gemini</h1>
+            <p>Seu assistente IA pessoal</p>
+        </header>
+        <div class="chatbox" id="chatbox">
+            <!-- As mensagens aparecerão aqui -->
+            <!-- Exemplo de mensagem do bot (para referência de estilo) -->
+            <!-- <div class="message bot-message"><p>Olá! Como posso te ajudar hoje?</p></div> -->
+            <!-- Exemplo de mensagem do usuário (para referência de estilo) -->
+            <!-- <div class="message user-message"><p>Que dia é hoje?</p></div> -->
+        </div>
+        <footer class="chat-input-area">
+            <input type="text" id="userInput" placeholder="Digite sua mensagem aqui...">
+            <button id="sendButton">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+                    <path d="M3.478 2.405a.75.75 0 00-.926.94l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986.75.75 0 000-1.218A60.517 60.517 0 003.478 2.405z" />
+                </svg>
+            </button>
+        </footer>
     </div>
-    <div id="input-area">
-        <input type="text" id="userInput" placeholder="Digite sua mensagem..." autocomplete="off">
-        <button id="sendButton">Enviar</button>
-    </div>
-
-    <!-- Carrega o script do frontend que está em public/index.js -->
     <script src="index.js"></script>
 </body>
 </html>

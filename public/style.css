@@ -1,73 +1,188 @@
+/* public/style.css */
+
+/* --- Reset Básico e Configurações Globais --- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 body {
-    font-family: sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f2f5; /* Um cinza claro suave para o fundo */
+    color: #1c1e21; /* Cor de texto principal (escuro) */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    line-height: 1.6;
+}
+
+/* --- Container Principal do Chat --- */
+.chat-container {
+    width: 100%;
+    max-width: 600px; /* Largura máxima do chat */
+    height: 80vh; /* Altura do chat, ajustável */
+    max-height: 700px;
+    background-color: #ffffff; /* Fundo branco para o chat */
+    border-radius: 12px; /* Bordas arredondadas */
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); /* Sombra suave */
     display: flex;
     flex-direction: column;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #f4f4f4;
+    overflow: hidden; /* Para garantir que o conteúdo não vaze das bordas arredondadas */
 }
 
-h1 {
-    color: #333;
+/* --- Cabeçalho do Chat --- */
+.chat-header {
+    background: linear-gradient(135deg, #007bff, #0056b3); /* Gradiente azul elegante */
+    color: #ffffff;
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid #dee2e6;
 }
 
-#chatbox {
-    width: 80%;
-    max-width: 600px;
-    height: 70vh;
-    border: 1px solid #ccc;
-    overflow-y: scroll;
-    padding: 10px;
-    background-color: #fff;
-    margin-bottom: 10px;
+.chat-header h1 {
+    font-size: 1.8em;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.chat-header p {
+    font-size: 0.9em;
+    opacity: 0.9;
+}
+
+/* --- Área das Mensagens (Chatbox) --- */
+.chatbox {
+    flex-grow: 1; /* Faz a caixa de chat ocupar o espaço restante */
+    padding: 20px;
+    overflow-y: auto; /* Adiciona barra de rolagem vertical quando necessário */
+    background-color: #f7f9fc; /* Um fundo levemente diferente para a área de mensagens */
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
+    gap: 15px; /* Espaço entre as mensagens */
 }
 
-.user-message, .bot-message {
-    padding: 8px 12px;
-    margin-bottom: 8px;
-    border-radius: 15px;
-    max-width: 70%;
-    word-wrap: break-word; 
+/* --- Estilo Geral das Mensagens --- */
+.message {
+    display: flex;
+    max-width: 80%; /* Mensagens não ocupam a largura toda */
+    word-wrap: break-word; /* Quebra palavras longas */
 }
 
-.user-message {
-    background-color: #dcf8c6;
-    align-self: flex-end; 
-    margin-left: auto;
+.message p {
+    padding: 12px 18px;
+    border-radius: 18px; /* Bordas bem arredondadas para as bolhas de chat */
+    font-size: 0.95em;
+    line-height: 1.5;
 }
 
+/* --- Mensagens do Bot --- */
 .bot-message {
-    background-color: #eee;
-    align-self: flex-start; 
-    margin-right: auto;
+    align-self: flex-start; /* Alinha à esquerda */
 }
 
+.bot-message p {
+    background-color: #e9ecef; /* Cinza claro para o bot */
+    color: #333;
+    border-top-left-radius: 0; /* "Rabicho" da bolha */
+}
 
-#input-area {
+/* --- Mensagens do Usuário --- */
+.user-message {
+    align-self: flex-end; /* Alinha à direita */
+}
+
+.user-message p {
+    background-color: #007bff; /* Azul primário para o usuário */
+    color: #ffffff;
+    border-top-right-radius: 0; /* "Rabicho" da bolha */
+}
+
+/* --- Área de Input --- */
+.chat-input-area {
     display: flex;
-    width: 80%;
-    max-width: 600px;
+    padding: 15px 20px;
+    border-top: 1px solid #e0e0e0;
+    background-color: #ffffff;
 }
 
 #userInput {
-    flex-grow: 1; 
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px 0 0 5px;
+    flex-grow: 1;
+    padding: 12px 15px;
+    border: 1px solid #ced4da;
+    border-radius: 20px; /* Bordas arredondadas para o input */
+    font-size: 1em;
+    margin-right: 10px;
+    outline: none; /* Remove o contorno padrão ao focar */
+    transition: border-color 0.2s ease-in-out;
+}
+
+#userInput:focus {
+    border-color: #007bff; /* Cor da borda ao focar */
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Efeito de foco suave */
 }
 
 #sendButton {
-    padding: 10px 15px;
-    border: none;
-    background-color: #007bff;
+    background-color: #007bff; /* Azul primário */
     color: white;
+    border: none;
+    border-radius: 50%; /* Botão redondo */
+    width: 48px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
-    border-radius: 0 5px 5px 0;
+    transition: background-color 0.2s ease-in-out;
 }
 
 #sendButton:hover {
-    background-color: #0056b3;
+    background-color: #0056b3; /* Azul mais escuro no hover */
+}
+
+#sendButton svg {
+    fill: white; /* Cor do ícone SVG */
+}
+
+
+/* --- Barra de Rolagem Personalizada (Opcional, Webkit) --- */
+.chatbox::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chatbox::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.chatbox::-webkit-scrollbar-thumb {
+    background: #c5c5c5;
+    border-radius: 10px;
+}
+
+.chatbox::-webkit-scrollbar-thumb:hover {
+    background: #a0a0a0;
+}
+
+/* --- Responsividade Básica --- */
+@media (max-width: 480px) {
+    body {
+        padding: 0;
+    }
+    .chat-container {
+        height: 100vh; /* Ocupa a tela toda em dispositivos pequenos */
+        max-height: none;
+        border-radius: 0;
+        box-shadow: none;
+    }
+    .chat-header h1 {
+        font-size: 1.5em;
+    }
+    .message {
+        max-width: 90%;
+    }
 }
