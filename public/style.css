@@ -9,10 +9,18 @@
     padding: 0;
 }
 
+/* Cores da paleta:
+   - Amarelo brilhante: #ffd60a
+   - Amarelo/Ouro:    #ffc300
+   - Azul escuro:      #003566
+   - Azul muito escuro: #001d3d
+   - Quase preto:      #000814
+*/
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f0f2f5; /* Um cinza claro suave para o fundo */
-    color: #1c1e21; /* Cor de texto principal (escuro) */
+    background-color: #000814; /* Quase preto para o fundo principal */
+    color: #ffd60a; /* Amarelo brilhante para texto principal */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -27,9 +35,9 @@ body {
     max-width: 600px; /* Largura máxima do chat */
     height: 80vh; /* Altura do chat, ajustável */
     max-height: 700px;
-    background-color: #ffffff; /* Fundo branco para o chat */
+    background-color: #001d3d; /* Azul muito escuro para o container do chat */
     border-radius: 12px; /* Bordas arredondadas */
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); /* Sombra suave */
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25); /* Sombra (ajustada para tema escuro) */
     display: flex;
     flex-direction: column;
     overflow: hidden; /* Para garantir que o conteúdo não vaze das bordas arredondadas */
@@ -37,11 +45,11 @@ body {
 
 /* --- Cabeçalho do Chat --- */
 .chat-header {
-    background: linear-gradient(135deg, #007bff, #0056b3); /* Gradiente azul elegante */
-    color: #ffffff;
+    background: linear-gradient(135deg, #ffc300, #ffd60a); /* Gradiente amarelo/ouro */
+    color: #001d3d; /* Azul muito escuro para texto do cabeçalho (contraste com amarelo) */
     padding: 20px;
     text-align: center;
-    border-bottom: 1px solid #dee2e6;
+    border-bottom: 1px solid #003566; /* Azul escuro para a borda */
 }
 
 .chat-header h1 {
@@ -60,7 +68,7 @@ body {
     flex-grow: 1; /* Faz a caixa de chat ocupar o espaço restante */
     padding: 20px;
     overflow-y: auto; /* Adiciona barra de rolagem vertical quando necessário */
-    background-color: #f7f9fc; /* Um fundo levemente diferente para a área de mensagens */
+    background-color: #001d3d; /* Azul muito escuro, igual ao container ou um pouco mais claro/escuro */
     display: flex;
     flex-direction: column;
     gap: 15px; /* Espaço entre as mensagens */
@@ -86,8 +94,8 @@ body {
 }
 
 .bot-message p {
-    background-color: #e9ecef; /* Cinza claro para o bot */
-    color: #333;
+    background-color: #003566; /* Azul escuro para o bot */
+    color: #ffd60a; /* Amarelo brilhante para texto do bot */
     border-top-left-radius: 0; /* "Rabicho" da bolha */
 }
 
@@ -97,8 +105,8 @@ body {
 }
 
 .user-message p {
-    background-color: #007bff; /* Azul primário para o usuário */
-    color: #ffffff;
+    background-color: #ffc300; /* Amarelo/Ouro para o usuário */
+    color: #000814; /* Quase preto para texto do usuário (contraste com amarelo) */
     border-top-right-radius: 0; /* "Rabicho" da bolha */
 }
 
@@ -106,29 +114,35 @@ body {
 .chat-input-area {
     display: flex;
     padding: 15px 20px;
-    border-top: 1px solid #e0e0e0;
-    background-color: #ffffff;
+    border-top: 1px solid #003566; /* Azul escuro para a borda */
+    background-color: #001d3d; /* Azul muito escuro para a área de input */
 }
 
 #userInput {
     flex-grow: 1;
     padding: 12px 15px;
-    border: 1px solid #ced4da;
+    border: 1px solid #003566; /* Azul escuro para borda do input */
     border-radius: 20px; /* Bordas arredondadas para o input */
     font-size: 1em;
     margin-right: 10px;
     outline: none; /* Remove o contorno padrão ao focar */
     transition: border-color 0.2s ease-in-out;
+    background-color: #000814; /* Fundo quase preto para o input */
+    color: #ffd60a; /* Texto amarelo no input */
+}
+
+#userInput::placeholder {
+    color: #003566; /* Azul escuro para placeholder, mais sutil */
 }
 
 #userInput:focus {
-    border-color: #007bff; /* Cor da borda ao focar */
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Efeito de foco suave */
+    border-color: #ffd60a; /* Amarelo brilhante para borda ao focar */
+    box-shadow: 0 0 0 0.2rem rgba(255, 214, 10, 0.35); /* Efeito de foco suave com amarelo */
 }
 
 #sendButton {
-    background-color: #007bff; /* Azul primário */
-    color: white;
+    background-color: #ffd60a; /* Amarelo brilhante para o botão */
+    color: #000814; /* Cor do ícone (se fosse texto, mas SVG usa fill) */
     border: none;
     border-radius: 50%; /* Botão redondo */
     width: 48px;
@@ -141,11 +155,11 @@ body {
 }
 
 #sendButton:hover {
-    background-color: #0056b3; /* Azul mais escuro no hover */
+    background-color: #ffc300; /* Amarelo/Ouro no hover */
 }
 
 #sendButton svg {
-    fill: white; /* Cor do ícone SVG */
+    fill: #000814; /* Quase preto para o ícone SVG */
 }
 
 
@@ -155,17 +169,17 @@ body {
 }
 
 .chatbox::-webkit-scrollbar-track {
-    background: #f1f1f1;
+    background: #001d3d; /* Azul muito escuro para a trilha */
     border-radius: 10px;
 }
 
 .chatbox::-webkit-scrollbar-thumb {
-    background: #c5c5c5;
+    background: #003566; /* Azul escuro para o polegar */
     border-radius: 10px;
 }
 
 .chatbox::-webkit-scrollbar-thumb:hover {
-    background: #a0a0a0;
+    background: #ffc300; /* Amarelo/Ouro no hover do polegar */
 }
 
 /* --- Responsividade Básica --- */
