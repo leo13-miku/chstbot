@@ -1,4 +1,3 @@
-
 import dotenv from 'dotenv';
 import express from 'express';
 import path, { dirname } from 'path';
@@ -79,6 +78,30 @@ async function initializeDatabases() {
 
 initializeDatabases();
 
+
+
+app.get('/api/chat/historicos', async (req, res) => {
+    if (!dbHistoria) {
+        return res.status(500).json({ error: "Servidor não conectado ao banco de dados de histórico." });
+    }
+    try {
+        const collection = dbHistoria.collection("sessoesChat");
+        const historicos = await collection.find({})
+                                            .sort({ startTime: -1 }) 
+                                            .limit(20)
+                                            .toArray(); 
+        
+        console.log(`[Busca Histórico] ${historicos.length} sessões encontradas e enviadas.`);
+        res.json(historicos);
+
+    } catch (error) {
+        console.error("[Servidor] Erro ao buscar históricos:", error);
+        res.status(500).json({ error: "Erro interno ao buscar históricos de chat." });
+    }
+});
+
+
+
 app.post('/api/log-connection', async (req, res) => {
     if (!dbLogs) {
         return res.status(500).json({ error: "Servidor não conectado ao banco de dados de logs." });
@@ -111,22 +134,44 @@ app.post('/api/chat/salvar-historico', async (req, res) => {
         return res.status(500).json({ error: "Servidor não conectado ao banco de dados de histórico." });
     }
     try {
+        
         const { sessionId, botId, startTime, endTime, messages } = req.body;
+        
         if (!sessionId || !botId || !messages || !Array.isArray(messages) || messages.length === 0) {
-            return res.status(400).json({ error: "Dados incompletos para salvar histórico (sessionId, botId, messages são obrigatórios)." });
+            return res.status(400).json({ error: "Dados incompletos para salvar histórico." });
         }
+        
+        const messagesFormatadas = messages.map(msg => ({
+            sender: msg.role === 'user' ? 'user' : 'bot',
+            text: msg.parts[0].text,
+            timestamp: new Date()
+        }));
+
         const novaSessao = {
             sessionId,
             userId: 'anonimo',
             botId,
             startTime: new Date(startTime),
             endTime: new Date(endTime),
-            messages,
+            messages: messagesFormatadas, 
             loggedAt: new Date()
         };
+
         const collection = dbHistoria.collection("sessoesChat");
-        const result = await collection.insertOne(novaSessao);
-        console.log(`[Histórico de Chat] Sessão salva com sucesso. ID: ${result.insertedId}`);
+        
+       
+        const result = await collection.updateOne(
+            { sessionId: sessionId }, 
+            { $set: novaSessao },    
+            { upsert: true }        
+        );
+
+        if (result.upsertedId) {
+            console.log(`[Histórico de Chat] Nova sessão criada com sucesso. ID: ${result.upsertedId}`);
+        } else {
+            console.log(`[Histórico de Chat] Sessão ${sessionId} atualizada com sucesso.`);
+        }
+
         res.status(201).json({ message: "Histórico de chat salvo com sucesso!", sessionId: novaSessao.sessionId });
     } catch (error) {
         console.error("[Erro] Em /api/chat/salvar-historico:", error);
