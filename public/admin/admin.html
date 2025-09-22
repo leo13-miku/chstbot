@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Controle</title>
+    <!-- Usaremos o mesmo arquivo de estilo -->
+    <link rel="stylesheet" href="/admin/style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header>
+            <h1>Painel de Controle</h1>
+            <a href="/admin/logout" class="logout-button">Sair</a>
+        </header>
+
+        <main>
+            <!-- 1. Visão Geral do Desempenho -->
+            <section class="card-section">
+                <h2>Visão Geral do Desempenho</h2>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <h3>Total de Conversas</h3>
+                        <p id="total-conversations">...</p>
+                    </div>
+                    <div class="metric-card">
+                        <h3>Usuários Únicos</h3>
+                        <p id="unique-users">...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Conversas Recentes -->
+            <section class="card-section">
+                <h2>Conversas Recentes</h2>
+                <div id="recent-conversations-list" class="recent-list">
+                    <p>Carregando conversas...</p>
+                </div>
+            </section>
+
+            <!-- 2. Gerenciamento Central do Bot -->
+            <section class="card-section">
+                <h2>Gerenciamento Central do Bot</h2>
+                <form id="bot-config-form">
+                    <div class="form-group">
+                        <label for="personality">Personalidade Principal do Bot</label>
+                        <textarea id="personality" name="personality" rows="4" placeholder="Ex: Você é um assistente amigável e prestativo..."></textarea>
+                    </div>
+                    <button type="submit">Salvar Personalidade</button>
+                    <p id="save-status" class="status-message"></p>
+                </form>
+            </section>
+        </main>
+    </div>
+
+    <!-- O JavaScript que vai buscar e exibir os dados -->
+    <script src="/admin/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <link rel="stylesheet" href="/admin/style.css"> <!-- Vamos criar este CSS depois -->
+</head>
+<body>
+    <div class="login-container">
+        <h2>Painel de Controle do Administrador</h2>
+        <p>Acesso restrito.</p>
+        
+        <!-- O formulário envia os dados para a rota POST /admin/login que criamos no server.js -->
+        <form action="/admin/login" method="POST">
+            <div class="form-group">
+                <label for="username">Usuário</label>
+                <input type="text" id="username" name="username" required autocomplete="username">
+            </div>
+            <div class="form-group">
+                <label for="password">Senha</label>
+                <input type="password" id="password" name="password" required autocomplete="current-password">
+            </div>
+            <button type="submit">Entrar</button>
+        </form>
+    </div>
+</body>
+</html>
