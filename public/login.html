@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login / Cadastro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="login-container">
+        <h1 id="form-title">Login</h1>
+        <form id="auth-form">
+            <input type="text" id="username" placeholder="Usuário" required>
+            <input type="password" id="password" placeholder="Senha" required>
+            <button type="submit" id="submit-button">Entrar</button>
+        </form>
+        <p id="feedback"></p>
+        <a href="#" id="switch-link">Não tem uma conta? Cadastre-se</a>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('auth-form');
+            const title = document.getElementById('form-title');
+            const button = document.getElementById('submit-button');
+            const switchLink = document.getElementById('switch-link');
+            const feedback = document.getElementById('feedback');
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+
+            let isLogin = true;
+
+            switchLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                isLogin = !isLogin;
+                title.textContent = isLogin ? 'Login' : 'Cadastro';
+                button.textContent = isLogin ? 'Entrar' : 'Cadastrar';
+                switchLink.textContent = isLogin ? 'Não tem uma conta? Cadastre-se' : 'Já tem uma conta? Faça login';
+                feedback.textContent = '';
+            });
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const url = isLogin ? '/api/login' : '/api/register';
+                const body = {
+                    username: usernameInput.value,
+                    password: passwordInput.value
+                };
+
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(body)
+                    });
+
+                    const data = await response.json();
+                    
+                    if (response.ok) {
+                        window.location.href = '/cahtbox.html'; // Redireciona para o chat
+                    } else {
+                        feedback.textContent = data.message || 'Ocorreu um erro.';
+                        feedback.style.color = 'red';
+                    }
+                } catch (error) {
+                    feedback.textContent = 'Erro de conexão.';
+                    feedback.style.color = 'red';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
