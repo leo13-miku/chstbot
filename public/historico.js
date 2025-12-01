@@ -8,15 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch(`${backendUrl}/api/chat/historicos`);
             if (!response.ok) throw new Error('Falha ao buscar históricos.');
-            
             const sessoes = await response.json();
             listaSessoesUI.innerHTML = '';
-
             if (sessoes.length === 0) {
                 listaSessoesUI.innerHTML = '<li class="placeholder">Nenhum histórico encontrado.</li>';
                 return;
             }
-
             sessoes.forEach(sessao => {
                 const li = document.createElement('li');
                 const dataFormatada = new Date(sessao.startTime).toLocaleString('pt-BR', {
@@ -38,7 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
             listaSessoesUI.innerHTML = '<li class="placeholder">Erro ao carregar. Tente novamente.</li>';
         }
     }
-
     function exibirConversaDetalhada(sessao) {
         visualizacaoDetalhadaUI.innerHTML = '';
 
@@ -46,17 +42,13 @@ document.addEventListener('DOMContentLoaded', () => {
             visualizacaoDetalhadaUI.innerHTML = '<p class="placeholder">Sessão sem mensagens.</p>';
             return;
         }
-
         sessao.messages.forEach(msg => {
             const messageElement = document.createElement('p');
             messageElement.classList.add(msg.sender === 'user' ? 'user-message' : 'bot-message');
             messageElement.textContent = msg.text;
             visualizacaoDetalhadaUI.appendChild(messageElement);
         });
-
         visualizacaoDetalhadaUI.scrollTop = 0;
     }
-
-
     carregarHistoricoSessoes();
 });

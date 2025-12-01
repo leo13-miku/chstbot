@@ -116,7 +116,6 @@ header h1 {
     font-size: 36px;
     font-weight: bold;
 }
-
 .recent-list .conversation {
     background-color: var(--bg-dark);
     padding: 15px;
@@ -124,26 +123,22 @@ header h1 {
     margin-bottom: 10px;
     border-left: 3px solid var(--accent-yellow);
 }
-
 .recent-list .conversation small {
     display: block;
     color: var(--text-secondary);
     margin-bottom: 5px;
 }
-
 /* --- Estilos de Formulário (Comuns para Login e Painel) --- */
 .form-group {
     margin-bottom: 20px;
     text-align: left;
 }
-
 .form-group label {
     display: block;
     margin-bottom: 8px;
     color: var(--text-secondary);
     font-weight: 600;
 }
-
 .form-group input,
 .form-group textarea {
     width: 100%;
@@ -155,11 +150,9 @@ header h1 {
     box-sizing: border-box;
     font-size: 16px;
 }
-
 textarea {
     resize: vertical;
 }
-
 button {
     width: 100%;
     padding: 12px;
@@ -172,7 +165,6 @@ button {
     font-weight: bold;
     transition: opacity 0.2s;
 }
-
 button:hover {
     opacity: 0.9;
 }

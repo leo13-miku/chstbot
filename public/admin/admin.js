@@ -1,14 +1,12 @@
 // Aguarda o carregamento completo do HTML
 document.addEventListener('DOMContentLoaded', () => {
-
     // Elementos da página
     const totalConversationsEl = document.getElementById('total-conversations');
     const uniqueUsersEl = document.getElementById('unique-users');
     const recentConversationsListEl = document.getElementById('recent-conversations-list');
     const botConfigForm = document.getElementById('bot-config-form');
     const personalityTextarea = document.getElementById('personality');
-    const saveStatusEl = document.getElementById('save-status');
-
+    const saveStatusEl = document.getElementById('save-status')
     // Função para buscar as métricas da API
     async function fetchMetrics() {
         try {
@@ -17,11 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error('Falha ao buscar métricas. Você está logado?');
             }
             const data = await response.json();
-
             // Atualiza os elementos no HTML
             totalConversationsEl.textContent = data.totalConversations;
             uniqueUsersEl.textContent = data.uniqueUsers;
-
             // Limpa a lista de conversas recentes e a preenche
             recentConversationsListEl.innerHTML = '';
             if (data.recentConversations.length === 0) {
@@ -44,7 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
             recentConversationsListEl.innerHTML = `<p style="color: #ff4d4d;">${error.message}</p>`;
         }
     }
-
     // Função para buscar a configuração atual do bot
     async function fetchBotConfig() {
         try {
@@ -93,10 +88,8 @@ document.addEventListener('DOMContentLoaded', () => {
             saveStatusEl.textContent = error.message;
         }
     }
-
     // Adiciona o evento de submit ao formulário
     botConfigForm.addEventListener('submit', saveBotConfig);
-
     // Chama as funções para carregar os dados quando a página é aberta
     fetchMetrics();
     fetchBotConfig();

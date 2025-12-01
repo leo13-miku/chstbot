@@ -1,24 +1,7 @@
-document.addEventListener('DOMContentLoaded', async () => {
-    // --- VERIFICAÇÃO DE SESSÃO ---
-    try {
-        const sessionResponse = await fetch('/api/session');
-        const sessionData = await sessionResponse.json();
-        if (!sessionData.loggedIn) {
-            window.location.href = '/login.html'; // Redireciona para login se não estiver logado
-            return; // Para a execução do script
-        }
-        document.getElementById('welcome-message').textContent = `Bem-vindo, ${sessionData.username}!`;
-    } catch (error) {
-        console.error('Erro ao verificar sessão, redirecionando para login.');
-        window.location.href = '/login.html';
-        return;
-    }
-    // --- FIM DA VERIFICAÇÃO ---
-
+document.addEventListener('DOMContentLoaded', () => {
     const chatbox = document.getElementById('chatbox');
     const userInput = document.getElementById('userInput');
     const sendButton = document.getElementById('sendButton');
-    const logoutButton = document.getElementById('logout-button');
 
     const backendUrl = '';
     let chatHistory = [];
@@ -43,22 +26,32 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }),
             });
 
-            if (!response.ok) {
-                 if (response.status === 401) {
-                    alert("Sua sessão expirou. Por favor, faça login novamente.");
-                    window.location.href = '/login.html';
-                }
-                throw new Error('Falha na comunicação com o servidor.');
-            }
+            if (!response.ok) throw new Error('Falha na comunicação com o servidor.');
 
             const data = await response.json();
             
             chatHistory.push({ role: 'model', parts: [{ text: data.resposta }] });
             appendMessage(data.resposta, false);
 
+            await salvarHistoricoSessao(currentSessionId, "chatbotPrincipalIFCODE", chatStartTime, new Date(), chatHistory);
+
         } catch (error) {
             console.error("Erro ao enviar mensagem:", error);
             appendMessage(`🤖 Ops! Algo deu errado: ${error.message}`, false);
+        }
+    }
+
+    async function salvarHistoricoSessao(sessionId, botId, startTime, endTime, messages) {
+        try {
+            const payload = { sessionId, botId, startTime: startTime.toISOString(), endTime: endTime.toISOString(), messages };
+            await fetch(`${backendUrl}/api/chat/salvar-historico`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            console.log("Histórico da sessão enviado para arquivamento.");
+        } catch (error) {
+            console.error("Erro de rede ao salvar histórico:", error);
         }
     }
 
@@ -69,17 +62,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         chatbox.appendChild(messageElement);
         chatbox.scrollTop = chatbox.scrollHeight;
     }
-    
-    async function logout() {
-        await fetch('/api/logout', { method: 'POST' });
-        window.location.href = '/login.html';
-    }
 
     sendButton.addEventListener('click', sendMessage);
     userInput.addEventListener('keypress', (event) => {
-        if (event.key === 'Enter') { sendMessage(); }
+        if (event.key === 'Enter') {
+            sendMessage();
+        }
     });
-    logoutButton.addEventListener('click', logout);
 
     appendMessage("Olá! Sou seu assistente. Como posso ajudar?", false);
 });

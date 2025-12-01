@@ -6,7 +6,6 @@ const messageSchema = new mongoose.Schema({
         text: { type: String, required: true }
     }]
 }, { _id: false });
-
 const sessaoChatSchema = new mongoose.Schema({
     sessionId: { type: String, required: true, index: true },
     userId: { type: String, default: 'anonimo' },
@@ -18,7 +17,5 @@ const sessaoChatSchema = new mongoose.Schema({
 }, {
     collection: 'sessoesChat'
 });
-
 const SessaoChat = mongoose.model('SessaoChat', sessaoChatSchema);
-
 export default SessaoChat;
